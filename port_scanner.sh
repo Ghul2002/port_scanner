@@ -18,21 +18,17 @@ end_port=$3
 scan_port() {
     local ip=$1
     local port=$2
-    if timeout 1 bash -c "echo > /dev/tcp/$ip/$p" 2>/dev/null; then
-        return 0
-    else
-        return 1
-    fi
+    timeout 1 bash -c "echo > /dev/tcp/$ip/$port" 2>/dev/null
 }
 
-echo "${YELLOW}Scanning $ip_address ports${NC}"
+echo -e "${YELLOW}Scanning $ip_address ports${NC}"
 
 # C like syntax lol - https://www.geeksforgeeks.org/linux-unix/bash-scripting-for-loop/
 for (( port=$start_port; port<=$end_port; port++ ));
 do
-        if scan_port "$ip_adress" "$port"; then
+        if scan_port "$ip_address" "$port"; then
                 echo -e "${GREEN}Port $port is OPEN${NC}"
         fi
 done
 
-echo "${YELLOW}Scan complete!${NC}"
+echo -e "${YELLOW}Scan complete!${NC}"
